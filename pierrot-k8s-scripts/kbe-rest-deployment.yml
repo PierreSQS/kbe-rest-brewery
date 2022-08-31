@@ -21,4 +21,15 @@ spec:
       - image: springframeworkguru/kbe-rest-brewery
         name: kbe-rest-brewery
         resources: {}
+        env:
+          - name: LOGGING_LEVEL_GURU_SPRINGFRAMEWORK_SFGRESTBREWERY
+              value: "info"
+          - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
+              value: "true"
+          - name: MANAGEMENT_HEALTH_READINESS_ENABLED
+              value: "true"
+          httpGet:
+            port: 8080
+            path: /actuator/health/readiness
+          initialDelaySeconds: 10
 status: {}
