@@ -1,10 +1,8 @@
 package guru.springframework.sfgrestbrewery.domain;
 
 import guru.springframework.sfgrestbrewery.web.model.BeerStyleEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -13,12 +11,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-05-25.
+ * Optimized by Pierrot on 8/31/22.
  */
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -48,4 +49,17 @@ public class Beer {
 
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Beer beer = (Beer) o;
+        return id != null && Objects.equals(id, beer.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

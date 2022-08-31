@@ -13,13 +13,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Created by jt on 2019-04-20.
+ * Optimized by Pierrot on 8/31/22.
  */
 @Slf4j
 @Service
@@ -30,18 +31,18 @@ public class BeerServiceImpl implements BeerService {
 
     @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false ")
     @Override
-    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
+    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, boolean showInventoryOnHand) {
 
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
 
-        if (!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+        if (!StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
             //search both
             beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
-        } else if (!StringUtils.isEmpty(beerName) && StringUtils.isEmpty(beerStyle)) {
+        } else if (!StringUtils.hasLength(beerName) && ObjectUtils.isEmpty(beerStyle)) {
             //search beer_service name
             beerPage = beerRepository.findAllByBeerName(beerName, pageRequest);
-        } else if (StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+        } else if (StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
             //search beer_service style
             beerPage = beerRepository.findAllByBeerStyle(beerStyle, pageRequest);
         } else {
@@ -75,7 +76,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Cacheable(cacheNames = "beerCache", key = "#beerId", condition = "#showInventoryOnHand == false ")
     @Override
-    public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
+    public BeerDto getById(UUID beerId, boolean showInventoryOnHand) {
         if (showInventoryOnHand) {
             return beerMapper.beerToBeerDtoWithInventory(
                     beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
@@ -97,7 +98,7 @@ public class BeerServiceImpl implements BeerService {
         Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
 
         beer.setBeerName(beerDto.getBeerName());
-        beer.setBeerStyle(BeerStyleEnum.PILSNER.valueOf(beerDto.getBeerStyle()));
+        beer.setBeerStyle(BeerStyleEnum.PILSNER);
         beer.setPrice(beerDto.getPrice());
         beer.setUpc(beerDto.getUpc());
 

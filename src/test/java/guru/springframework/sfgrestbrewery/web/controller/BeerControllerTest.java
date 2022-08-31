@@ -16,13 +16,15 @@ import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BeerController.class)
-public class BeerControllerTest {
+class BeerControllerTest {
 
     @MockBean
     BeerService beerService;
@@ -45,18 +47,19 @@ public class BeerControllerTest {
     }
 
     @Test
-    public void getBeer() throws Exception {
-        given(beerService.getById(any(UUID.class), any())).willReturn(validBeer);
+    void getBeer() throws Exception {
+        given(beerService.getById(any(UUID.class), anyBoolean())).willReturn(validBeer);
 
         mockMvc.perform(get("/api/v1/beer/" + validBeer.getId().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(validBeer.getId().toString())))
-                .andExpect(jsonPath("$.beerName", is("Beer1")));
+                .andExpect(jsonPath("$.beerName", is("Beer1")))
+                .andDo(print());
     }
 
     @Test
-    public void handlePost() throws Exception {
+    void handlePost() throws Exception {
         //given
         BeerDto beerDto = validBeer;
         beerDto.setId(null);
@@ -73,7 +76,7 @@ public class BeerControllerTest {
     }
 
     @Test
-    public void handleUpdate() throws Exception {
+    void handleUpdate() throws Exception {
         //given
         BeerDto beerDto = validBeer;
         beerDto.setId(null);

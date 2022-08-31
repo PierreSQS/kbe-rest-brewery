@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.util.Random;
 
 /**
- * Created by jt on 3/7/21.
+ * Optimized by Pierrot on 8/31/22.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -55,7 +55,7 @@ public class BeerLoader implements CommandLineRunner {
     private final BeerRepository beerRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         loadBeerObjects();
     }
 

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-04-21.
+ * Optimized by Pierrot on 8/31/22.
  */
 
 @RequestMapping("api/v1/customer")
 @RestController
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -31,13 +31,13 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody @Validated CustomerDto customerDto){
+    public ResponseEntity<CustomerDto> handlePost(@RequestBody @Validated CustomerDto customerDto){
         CustomerDto savedDto = customerService.saveNewCustomer(customerDto);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", "/api/v1/customer/" + savedDto.getId().toString());
 
-        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
     @PutMapping("/{customerId}")

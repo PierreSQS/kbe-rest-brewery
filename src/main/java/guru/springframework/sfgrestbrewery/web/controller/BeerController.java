@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-04-20.
+ * Optimized by Pierrot on 8/31/22.
  */
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
@@ -67,7 +67,7 @@ public class BeerController {
     }
 
     @PostMapping(path = "beer")
-    public ResponseEntity saveNewBeer(@RequestBody @Validated BeerDto beerDto){
+    public ResponseEntity<BeerDto> saveNewBeer(@RequestBody @Validated BeerDto beerDto){
 
         BeerDto savedBeer = beerService.saveNewBeer(beerDto);
 
@@ -79,7 +79,7 @@ public class BeerController {
     }
 
     @PutMapping("beer/{beerId}")
-    public ResponseEntity updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody @Validated BeerDto beerDto){
+    public ResponseEntity<BeerDto> updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody @Validated BeerDto beerDto){
         return new ResponseEntity<>(beerService.updateBeer(beerId, beerDto), HttpStatus.NO_CONTENT);
     }
 
