@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kbe-rest-deployment
+  name: kbe-rest-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kbe-rest-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kbe-rest-deployment
+    spec:
+      containers:
+      - image: springframeworkguru/kbe-rest-brewery
+        name: kbe-rest-brewery
+        resources: {}
+status: {}
