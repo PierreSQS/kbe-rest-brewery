@@ -28,6 +28,7 @@ spec:
             value: "true"
           - name: MANAGEMENT_HEALTH_READINESS_ENABLED
             value: "true"
+        readinessProbe:
           httpGet:
             port: 8080
             path: /actuator/health/readiness
