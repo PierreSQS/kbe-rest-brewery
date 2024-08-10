@@ -26,8 +26,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
-        <org.lombok.version>1.18.24</org.lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <org.lombok.version>1.18.32</org.lombok.version>
     </properties>
 
     <dependencies>
@@ -126,4 +126,11 @@
     <scm>
         <url>https://github.com/sfg-beer-works/sfg-restful-brewery</url>
     </scm>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>
