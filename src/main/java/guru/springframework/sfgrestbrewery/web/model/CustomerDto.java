@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-04-21.
+ * Modified by Pierrot on 10-08-2024.
  */
 @Data
 @NoArgsConstructor

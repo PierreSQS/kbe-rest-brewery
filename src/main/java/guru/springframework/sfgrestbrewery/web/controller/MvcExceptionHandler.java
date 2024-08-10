@@ -7,12 +7,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Optimized by Pierrot on 8/31/22.
+ * Modified by Pierrot on 10-08-2024.
  */
 @ControllerAdvice
 public class MvcExceptionHandler {
