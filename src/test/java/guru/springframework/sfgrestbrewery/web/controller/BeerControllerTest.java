@@ -4,19 +4,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.sfgrestbrewery.bootstrap.BeerLoader;
 import guru.springframework.sfgrestbrewery.services.BeerService;
 import guru.springframework.sfgrestbrewery.web.model.BeerDto;
+import guru.springframework.sfgrestbrewery.web.model.BeerPagedList;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -37,6 +42,8 @@ class BeerControllerTest {
 
     BeerDto validBeer;
 
+    BeerPagedList beerPagedList;
+
     @BeforeEach
     public void setUp() {
         validBeer = BeerDto.builder().id(UUID.randomUUID())
@@ -44,6 +51,23 @@ class BeerControllerTest {
                 .beerStyle("PALE_ALE")
                 .upc(BeerLoader.BEER_2_UPC)
                 .build();
+
+        beerPagedList = new BeerPagedList(List.of(validBeer),
+                PageRequest.of(1, 25), 2);
+    }
+
+    @Disabled("doesn't work, to check")
+    @Test
+    void listBeers() throws Exception {
+
+        given(beerService.listBeers(anyString(), any(), any(),anyBoolean())).willReturn(beerPagedList);
+
+        mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.totalPages", is(2)))
+                .andExpect(jsonPath("$.size", is(25)))
+                .andDo(print());
     }
 
     @Test
