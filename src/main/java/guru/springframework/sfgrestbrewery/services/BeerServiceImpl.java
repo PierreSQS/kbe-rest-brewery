@@ -17,7 +17,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Optimized by Pierrot on 8/31/22.
@@ -36,13 +35,13 @@ public class BeerServiceImpl implements BeerService {
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
 
-        if (!StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
+        if (StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
             //search both
             beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
-        } else if (!StringUtils.hasLength(beerName) && ObjectUtils.isEmpty(beerStyle)) {
+        } else if (StringUtils.hasLength(beerName) && ObjectUtils.isEmpty(beerStyle)) {
             //search beer_service name
             beerPage = beerRepository.findAllByBeerName(beerName, pageRequest);
-        } else if (StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
+        } else if (!StringUtils.hasLength(beerName) && !ObjectUtils.isEmpty(beerStyle)) {
             //search beer_service style
             beerPage = beerRepository.findAllByBeerStyle(beerStyle, pageRequest);
         } else {
@@ -54,7 +53,7 @@ public class BeerServiceImpl implements BeerService {
                     .getContent()
                     .stream()
                     .map(beerMapper::beerToBeerDtoWithInventory)
-                    .collect(Collectors.toList()),
+                    .toList(),
                     PageRequest
                             .of(beerPage.getPageable().getPageNumber(),
                                     beerPage.getPageable().getPageSize()),
@@ -64,7 +63,7 @@ public class BeerServiceImpl implements BeerService {
                     .getContent()
                     .stream()
                     .map(beerMapper::beerToBeerDto)
-                    .collect(Collectors.toList()),
+                    .toList(),
                     PageRequest
                             .of(beerPage.getPageable().getPageNumber(),
                                     beerPage.getPageable().getPageSize()),
