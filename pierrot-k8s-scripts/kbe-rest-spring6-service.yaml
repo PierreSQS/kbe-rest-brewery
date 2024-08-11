@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: kbe-rest6-svc
+    app: kbe-rest6-deploy
   type: ClusterIP
 status:
   loadBalancer: {}
