@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kbe-rest6-deploy
+  name: kbe-rest6-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kbe-rest6-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kbe-rest6-deploy
+    spec:
+      containers:
+      - image: spring-6-kbe-rest-brewery:k8s
+        name: spring-6-kbe-brewery
+        resources: {}
+status: {}
