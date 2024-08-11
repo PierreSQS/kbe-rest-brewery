@@ -25,9 +25,9 @@ spec:
             value: "info"
           - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
             value: "true"
-          - name: MANAGEMENT_HEALTH_READINESS_ENABLED
+          - name: MANAGEMENT_HEALTH_READINESSSTATE_ENABLED
             value: "true"
-          - name: MANAGEMENT_HEALTH_LIVENESS_ENABLED
+          - name: MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
             value: "true"
         livenessProbe:
           httpGet:
