@@ -29,6 +29,8 @@ spec:
             value: "true"
           - name: MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
             value: "true"
+          - name: SERVER_SHUTDOWN
+            value: "graceful"
         livenessProbe:
           httpGet:
             port: 8080
@@ -41,5 +43,10 @@ spec:
             path: /actuator/health/readiness
           # wait 3s before performing the first probe
           initialDelaySeconds: 15
+        # belongs to SERVER_SHUTDOWN property
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "sh", "-c", "sleep 15" ]
         resources: {}
 status: {}
